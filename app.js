@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -7,10 +8,12 @@ const app = express();
 const db = require('./config/db');
 const connectDB = require('./config/db');
 
+// Parse JSON request bodies
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Routes
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+app.use('/api', require('./routes/auth'));
 
 // Middleware
 app.use(express.json()); 
