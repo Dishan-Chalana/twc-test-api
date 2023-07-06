@@ -2,7 +2,10 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
+const auth = require("./middlewares/auth");
+
 const app = express();
+
 
 // Local imports
 const db = require('./config/db');
@@ -14,9 +17,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api', require('./routes/auth'));
+app.get('/protected', auth, (req, res) => {
+    return res.status(200).json({ ...req.user._doc })
+});
 
 // Middleware
-app.use(express.json()); 
+app.use(express.json());
 app.use(morgan("tiny")); // Log HTTP requests
 
 
