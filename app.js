@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const auth = require("./middlewares/auth");
 
@@ -10,24 +11,29 @@ const app = express();
 // Local imports
 const db = require('./config/db');
 const connectDB = require('./config/db');
+const authRouter = require('./routes/auth');
 
 // Parse JSON request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// Middleware
+// Enable CORS
+app.use(express.json());
+app.use(morgan("common")); // Log HTTP requests
+app.use(cors());  
 
 // Routes
-app.use('/api', require('./routes/auth'));
+app.use('/api', authRouter);
 app.get('/protected', auth, (req, res) => {
     return res.status(200).json({ ...req.user._doc })
 });
 
-// Middleware
-app.use(express.json());
-app.use(morgan("tiny")); // Log HTTP requests
 
 
 
-const PORT = process.env.PORT || 3000;
+
+
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, async () => {
     try {
         await connectDB(); // Connect to the database
