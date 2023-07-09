@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
+    userId: {
+        type: String,
+        default: function () {
+            return Math.random().toString(36).substr(2, 9);
+        },
+        unique: true,
+    },
     email: {
         type: String,
         required: true,
