@@ -14,7 +14,7 @@ router.post("/new/contact", async (req, res) => {
 
   try {
     // Retrieve the logged-in user's ID from req.user
-    const userId = req.user.userId;
+    //const userId = req.user.userId;
 
     // Create a new contact document using the Contact model
     const newContact = new Contact({
@@ -22,7 +22,7 @@ router.post("/new/contact", async (req, res) => {
       email,
       phone,
       gender,
-      userId, // Associate the user ID with the contact
+      //userId, // Associate the user ID with the contact
     });
 
     // Save the new contact
@@ -34,7 +34,6 @@ router.post("/new/contact", async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 });
-
 
 // Get all contacts
 router.get("/contacts", async (req, res) => {

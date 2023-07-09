@@ -50,6 +50,7 @@ router.post("/register", async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
+      userId: Math.random().toString(36).substr(2, 9), // Generate a random user ID
       email,
       password: hashedPassword,
       confirmPassword: hashedPassword,

@@ -20,7 +20,11 @@ const auth = async (req, res, next) => {
                 return res.status(401).json({ error: "You are not authorized to access this resource." });
             }
 
-            req.user = user;
+            req.user = {
+                userId: user._id // Include the user's ID in the request
+              };
+
+            
             req.token = token;
             next();
         } catch (error) {
